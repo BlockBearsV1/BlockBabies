@@ -3,75 +3,92 @@ The Mini Version Of BlockBearsV1
 
 # Getting Started
 Install the latest version of the SDK:
+Here are step-by-step instructions to set up your project:
 
-To create the front end for the web app using Angular, you can follow these steps:
+1. Create a new directory for your project.
+2. Open a terminal and navigate to the project directory.
+3. Run the following command to create a new React app using Create React App:
 
-1. Set up the Angular project:
-   - Install Angular CLI if you haven't already: `npm install -g @angular/cli`
-   - Create a new Angular project: `ng new my-app`
-   - Navigate to the project directory: `cd my-app`
-
-2. Install the required dependencies:
-   - Install the Thirdweb SDK: `npm install @thirdweb-dev/sdk`
-
-3. Create a new component for the web app:
-   - Generate a new component: `ng generate component my-component`
-
-4. Update the component's HTML template (my-component.component.html) with the necessary code:
-```html
-<button (click)="getContract()">Get Contract</button>
+```
+npx create-react-app my-app
 ```
 
-5. Update the component's TypeScript file (my-component.component.ts) with the necessary code:
-```typescript
-import { Component } from '@angular/core';
-import { ThirdwebSDK } from '@thirdweb-dev/sdk';
+Replace "my-app" with the desired name for your project.
 
-@Component({
-  selector: 'app-my-component',
-  templateUrl: './my-component.component.html',
-  styleUrls: ['./my-component.component.css']
-})
-export class MyComponentComponent {
-  async getContract() {
-    const sdk = new ThirdwebSDK('polygon', { clientId: 'YOUR_CLIENT_ID' });
-    // OR
-    // const sdk = new ThirdwebSDK('polygon', { secretKey: 'YOUR_SECRET_KEY' });
+4. Once the command finishes, navigate into the project directory:
 
-    const contract = await sdk.getContract('0xcE221D36AC137EDc29335c57c320Ad0Dade6279B');
-    console.log(contract);
-  }
+```
+cd my-app
+```
+
+5. Install the required dependencies by running the following command:
+
+```
+npm install @thirdweb-dev/react @thirdweb-dev/sdk ethers@5 antd redux react-redux @reduxjs/toolkit redux-thunk axios
+```
+
+6. Open the `src/App.js` file and replace its contents with the code provided earlier:
+
+```jsx
+import React from "react";
+import { ThirdwebProvider, useContract } from "@thirdweb-dev/react";
+
+function App() {
+  return (
+    <ThirdwebProvider
+      activeChain="polygon"
+      clientId="INPUT-YOUR-CHAINID"
+    >
+      <Component />
+    </ThirdwebProvider>
+  );
 }
+
+function Component() {
+  const { contract, isLoading } = useContract(
+    "0xcE221D36AC137EDc29335c57c320Ad0Dade6279B"
+  );
+
+  return (
+    <div>
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <div>
+          <p>Contract Address: {contract.address}</p>
+          <p>Contract Balance: {contract.balance}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default App;
 ```
 
-6. Update the app module file (app.module.ts) to include the newly created component:
-```typescript
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { AppComponent } from './app.component';
-import { MyComponentComponent } from './my-component/my-component.component';
+7. Open the `src/index.js` file and replace its contents with the code provided earlier:
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    MyComponentComponent
-  ],
-  imports: [
-    BrowserModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
-export class AppModule { }
+```jsx
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
 ```
 
-7. Update the app component HTML template (app.component.html) to include the newly created component:
-```html
-<app-my-component></app-my-component>
+8. Save the files and close them.
+
+9. Finally, start the development server by running the following command in the terminal:
+
+```
+npm start
 ```
 
-8. Run the Angular development server:
-   - Navigate to the project directory if you're not already there: `cd my-app`
-   - Start the development server: `ng serve`
+This will start the React development server and open your app in the browser.
 
-Now
+That's it! You should now see your React app running with the provided code.
